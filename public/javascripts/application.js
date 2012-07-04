@@ -57,7 +57,7 @@ $(".report-year, .report-month").live( "change", function() {
 
   from_str += '-01';
   if(year == current_year && parseInt(month) == current_month || 
-     year == current_year && month == '' || year == '' && month == '')
+    year == current_year && month == '' || year == '' && month == '')
     to_str += '-'+pad2(current_day);
   else
     to_str += '-'+daysInMonth(year, month);
