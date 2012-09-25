@@ -4,15 +4,15 @@ class User
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
-  
+
   devise :database_authenticatable, :registerable, :confirmable,
        :recoverable, :rememberable, :trackable, :validatable
 
   field :pivotal_tracker_api_token
   field :admin, type: Boolean, default: false
-  field :employee_hourly_rate_ids, default: [], type: Array
-  field :client_hourly_rate_ids, default: [], type: Array
-  
+  field :client_hourly_rate_ids, type: Array, default: []
+  field :employee_hourly_rate_ids, type: Array, default: []
+
   attr_protected :admin
 
   validates_presence_of :pivotal_tracker_api_token
@@ -25,7 +25,6 @@ class User
                                      class_name: 'HourlyRate', :default => []
 
   alias_method :name, :email
-  
 
   def current_time_log_entry
     time_log_entries.find(:first, :conditions => {current: true})
@@ -40,7 +39,7 @@ class User
   end
 
   def owned_projects
-    admin? ? projects : projects.where(:owner_emails => email)
+    admin? ? projects : projects.where(:our_owner_emails => email)
   end
 
   def not_owned_projects

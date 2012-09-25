@@ -17,11 +17,17 @@ module ApplicationHelper
     v = "%.2f" % (value.to_f/100)
     "#{v}#{currency}"
   end
-  
+
+  def currency_options
+    currencies = %w[PLN EUR USD GBP]
+    currency_options = currencies.map { |c| [c, c] }
+    options_for_select(currency_options, @current_project.currency || 'PLN')
+  end
+
   def signup_available
     !TimeTracker::Application.config.signup_locked
   end
-  
+
   def is_admin?
     current_user && current_user.admin
   end

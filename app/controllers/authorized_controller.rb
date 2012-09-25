@@ -9,6 +9,10 @@ class AuthorizedController < AuthenticatedController
     def owns_any_projects?
       redirect_to root_path, :error => 'Access denied' unless current_user.owned_projects.size > 0
     end
+    
+    def has_any_projects?
+      redirect_to root_path, :error => 'Access denied' unless current_user.projects.size > 0
+    end
 
     def owns_current_project?
       id = params[:project_id] || params[:id]
